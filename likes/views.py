@@ -12,7 +12,7 @@ class LikeList(generics.ListCreateAPIView):
     serializer_class = LikesSerializer
     queryset = Likes.objects.all()
 
-    def form_create(self, serializer):
+    def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 # to retrieve and delete a like
