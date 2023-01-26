@@ -25,6 +25,24 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
+        'rest_framework.authentication.SessionAuthentication'
+        if 'DEV' in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )]
+}
+# To enable token authentication
+REST_USE_JWT = True
+# To ensure tokens sent over HTTPS only
+JWT_AUTH_COOKIE = 'my-app-auth'
+# Declare cookie names for the access and refresh tokens
+JWT_AUTH_SECURE = True
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -51,6 +69,13 @@ INSTALLED_APPS = [
     'cloudinary',
     'rest_framework',
     'django_filters',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     'profiles',
     'posts',
     'comments',
@@ -60,6 +85,7 @@ INSTALLED_APPS = [
 
 ]
 
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
