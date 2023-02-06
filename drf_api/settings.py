@@ -70,7 +70,9 @@ ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
 ]
-
+#added to resolve CORS issue
+if "CLIENT_ORIGIN" in os.environ:
+    CORS_ALLOWED_ORIGINS = [os.environ.get("CLIENT_ORIGIN")]
 # Application definition
 
 INSTALLED_APPS = [
